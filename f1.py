@@ -3,19 +3,19 @@ import numpy as np
 from sklearn.metrics import classification_report, f1_score
 from data import load_data, preprocess
 
-# ---------------- 參數 ----------------
+
 BATCH_SIZE = 32
 
-# ---------------- 載入測試資料 ----------------
+
 _, ds_test, num_classes, class_names = load_data()
 AUTOTUNE = tf.data.AUTOTUNE
 ds_test = ds_test.map(preprocess, num_parallel_calls=AUTOTUNE).batch(BATCH_SIZE).prefetch(AUTOTUNE)
 
-# ---------------- 載入模型 ----------------
+
 model = tf.keras.models.load_model("plant_model.h5")
 print("模型載入完成！")
 
-# ---------------- 收集預測與真實標籤 ----------------
+
 y_true = []
 y_pred = []
 
@@ -28,7 +28,7 @@ for images, labels in ds_test:
 y_true = np.array(y_true)
 y_pred = np.array(y_pred)
 
-# ---------------- 計算 F1-score ----------------
+
 print("分類報告：")
 print(classification_report(y_true, y_pred, target_names=class_names, digits=4))
 
